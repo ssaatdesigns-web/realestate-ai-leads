@@ -1,14 +1,13 @@
 import { supabaseAdmin } from "../../../../lib/supabaseAdmin";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_req: Request, context: any) {
+  const id = context?.params?.id as string;
+
   const { data, error } = await supabaseAdmin
     .from("leads")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (error) {
@@ -18,15 +17,10 @@ export async function GET(
   return NextResponse.json({ data });
 }
 
+export async function DELETE(_req: Request, context: any) {
+  const id = context?.params?.id as string;
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { error } = await supabaseAdmin
-    .from("leads")
-    .delete()
-    .eq("id", params.id);
+  const { error } = await supabaseAdmin.from("leads").delete().eq("id", id);
 
   if (error) {
     return NextResponse.json({ error }, { status: 400 });
