@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { supabaseAdmin } from "../lib/supabaseAdmin";
 
 export default async function Home() {
   const { data: leads, error } = await supabaseAdmin
