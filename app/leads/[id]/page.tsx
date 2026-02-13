@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 
 const STAGES = ["new", "contacted", "site_visit", "negotiation"] as const;
 
