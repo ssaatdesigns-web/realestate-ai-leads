@@ -101,7 +101,7 @@ export async function POST(req: Request) {
       const blob = `${full_name || ""} ${email || ""} ${phone || ""} ${JSON.stringify(fieldData)}`;
       const cls = classifyV1(blob);
 
-      await supabaseAdmin()
+      await supabaseAdmin
         .from("leads")
         .upsert({
           source: "meta_lead_ads",
