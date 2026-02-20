@@ -1,6 +1,6 @@
 // app/api/leads/route.ts
 import { NextResponse } from "next/server";
-import supabaseAdmin from "@/lib/supabaseAdmin";
+import { supabaseAdmin } from "../../../lib/supabaseAdmin";
 
 type InterestLevel = "extremely_sure" | "highly_interested" | "interested";
 type Intent = "buy" | "rent";
