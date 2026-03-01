@@ -17,24 +17,44 @@ export default async function Home() {
 
   return (
     <div>
-      <h1>Lead Intelligence Dashboard</h1>
+      <h1 className="pageTitle">Lead Intelligence Dashboard</h1>
+      <p className="pageSub">
+        Track buyer intent, pipeline stage, and conversions for SAAT Designs.
+      </p>
 
-      <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
-        <Card title="Total Leads" value={String(total)} />
-        <Card title="For-Sure Leads" value={String(forSure)} />
-        <Card title="Won (Converted)" value={String(won)} />
-        <Card title="Open" value={String(open)} />
-        <Card title="Conversion Rate" value={`${conversionRate.toFixed(1)}%`} />
+      <div className="grid">
+        <Card title="Total Leads" value={String(total)} badge="All sources" />
+        <Card title="For-Sure Leads" value={String(forSure)} badge="High intent" badgeVariant="gold" />
+        <Card title="Won (Converted)" value={String(won)} badge="Closed" />
+        <Card title="Open" value={String(open)} badge="In progress" />
+        <Card title="Conversion Rate" value={`${conversionRate.toFixed(1)}%`} badge="Won / total" />
       </div>
     </div>
   );
 }
 
-function Card({ title, value }: { title: string; value: string }) {
+function Card({
+  title,
+  value,
+  badge,
+  badgeVariant,
+}: {
+  title: string;
+  value: string;
+  badge?: string;
+  badgeVariant?: "gold";
+}) {
   return (
-    <div style={{ border: "1px solid #eee", borderRadius: 10, padding: 14 }}>
-      <div style={{ fontSize: 12 }}>{title}</div>
-      <div style={{ fontSize: 28, fontWeight: 700 }}>{value}</div>
+    <div className="card">
+      <div className="cardTop">
+        <div className="cardTitle">{title}</div>
+        {badge ? (
+          <span className={`badge ${badgeVariant === "gold" ? "badgeGold" : ""}`}>
+            {badge}
+          </span>
+        ) : null}
+      </div>
+      <div className="cardValue">{value}</div>
     </div>
   );
 }
