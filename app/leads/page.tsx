@@ -19,45 +19,76 @@ export default async function LeadsPage(props: any) {
 
   return (
     <div>
-      <h1>Leads</h1>
+      <h1 className="pageTitle">Leads</h1>
+      <p className="pageSub">Latest 200 leads (newest first).</p>
 
-      <div style={{ overflowX: "auto", border: "1px solid #eee", borderRadius: 10 }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <Th>Name</Th>
-              <Th>Phone</Th>
-              <Th>Intent</Th>
-              <Th>Score</Th>
-              <Th>Stage</Th>
-              <Th>Outcome</Th>
-              <Th>Open</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {(data ?? []).map((l: any) => (
-              <tr key={l.id} style={{ borderTop: "1px solid #f1f1f1" }}>
-                <Td>{l.full_name ?? "-"}</Td>
-                <Td>{l.phone ?? "-"}</Td>
-                <Td>{l.intent_label}</Td>
-                <Td>{l.intent_score}</Td>
-                <Td>{l.stage}</Td>
-                <Td>{l.outcome}</Td>
-                <Td>
-                  <a href={`/leads/${l.id}`}>View</a>
-                </Td>
+      <div className="panel">
+        <div className="tableWrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Intent</th>
+                <th>Score</th>
+                <th>Stage</th>
+                <th>Outcome</th>
+                <th>Open</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {(data ?? []).map((l: any) => (
+                <tr key={l.id}>
+                  <td>{l.full_name ?? "-"}</td>
+                  <td>{l.phone ?? "-"}</td>
+                  <td>{l.email ?? "-"}</td>
+                  <td>
+                    <span className={`pill ${intentPill(l.intent_label)}`}>
+                      {l.intent_label ?? "-"}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="pill pillBlue">{l.intent_score ?? 0}</span>
+                  </td>
+                  <td>
+                    <span className="pill">{l.stage ?? "-"}</span>
+                  </td>
+                  <td>
+                    <span className={`pill ${outcomePill(l.outcome)}`}>
+                      {l.outcome ?? "-"}
+                    </span>
+                  </td>
+                  <td>
+                    <a className="link" href={`/leads/${l.id}`}>
+                      View
+                    </a>
+                  </td>
+                </tr>
+              ))}
+              {(data ?? []).length === 0 ? (
+                <tr>
+                  <td colSpan={8} style={{ padding: 16, color: "rgba(255,255,255,.7)" }}>
+                    No leads found.
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 }
 
-function Th({ children }: { children: React.ReactNode }) {
-  return <th style={{ textAlign: "left", padding: 10 }}>{children}</th>;
+function intentPill(intent: string) {
+  if (intent === "for_sure") return "pillGold";
+  if (intent === "unsure") return "pillRed";
+  return "pill";
 }
-function Td({ children }: { children: React.ReactNode }) {
-  return <td style={{ padding: 10 }}>{children}</td>;
+
+function outcomePill(outcome: string) {
+  if (outcome === "won") return "pillGreen";
+  if (outcome === "lost") return "pillRed";
+  return "pill";
 }
